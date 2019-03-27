@@ -26,11 +26,6 @@ end
 %imgs = randn(100,64,64); % 10 white noise images
 wJ = 5; % window size is 2^wJ, should be smaller than image size
 pos = compute_power_spectrum_welch(imgs,wJ);
-figure;
-[Spos,Vpos,Kpos] = mySpectre2D(pos);
-%plot(Kpos,Spos);
-plot(Kpos,log10(Spos));
-title('ns randn3u N256:原始图片radial功率谱');
 %{
 subplot(2,2,1);
 mesh(fftshift(pos));
@@ -63,13 +58,9 @@ end
 %ns1=rgb2gray(nss1);
 %imgs = randn(100,64,64); % 10 white noise images
 %imgs1(1,:,:)=ns1;
-wJ1 = 5; % window size is 2^wJ, should be smaller than image size
+wJ1 = 6; % window size is 2^wJ, should be smaller than image size
 pos1 = compute_power_spectrum_welch(imgs1,wJ1);
-figure;
-[Spos1,Vpos1,Kpos1] = mySpectre2D(pos1);
-%plot(Kpos1,Spos1);
-plot(Kpos1,log10(Spos1));
-title('demo whitenoise N64:原始图片radial功率谱');
+
 %{
 subplot(2,2,1);
 mesh(fftshift(pos1));
@@ -97,13 +88,9 @@ for i=1:num2
     imgs2(i,:,:)=ns2.imgs(:,:,i);
 end
 %imgs = randn(100,64,64); % 10 white noise images
-wJ2 = 5; % window size is 2^wJ, should be smaller than image size
+wJ2 = 6; % window size is 2^wJ, should be smaller than image size
 pos2 = compute_power_spectrum_welch(imgs2,wJ2);
-figure;
-[Spos2,Vpos2,Kpos2] = mySpectre2D(pos2);
-%plot(Kpos2,Spos2);
-plot(Kpos2,log10(Spos2));
-title('demo fbmB4 N256:原始图片radial功率谱');
+
 %{
 subplot(2,2,1);
 mesh(fftshift(pos2));
@@ -139,11 +126,19 @@ for i=1:12
 end
 wJ3 = 5; % window size is 2^wJ, should be smaller than image size
 pos3 = compute_power_spectrum_welch(imgs3,wJ3);
+%figure;
 figure;
+[Spos,Vpos,Kpos] = mySpectre2D(pos);
+%plot(Kpos,Spos);
+plot(Kpos,log10(Spos),'b');
+hold on;
+title('ns randn3u N256:图片radial功率谱');
 [Spos3,Vpos3,Kpos3] = mySpectre2D(pos3);
 %plot(Kpos3,Spos3);
-plot(Kpos3,log10(Spos3));
-title('ns randn3u N256:生成图片radial功率谱');
+plot(Kpos3,log10(Spos3),'r');
+hold on;
+legend('原始','生成');
+%title('ns randn3u N256:生成图片radial功率谱');
 %{
 subplot(2,2,1);
 mesh(fftshift(pos3));
@@ -179,13 +174,21 @@ for i=1:12
         imgs4(12*(i-1)+j,:,:)=imgs4(12*(i-1)+j,:,:)*(MA-MI)+MI;
     end
 end
-wJ4 = 5; % window size is 2^wJ, should be smaller than image size
+wJ4 = 6; % window size is 2^wJ, should be smaller than image size
 pos4 = compute_power_spectrum_welch(imgs4,wJ4);
+%figure;
 figure;
+[Spos1,Vpos1,Kpos1] = mySpectre2D(pos1);
+%plot(Kpos1,Spos1);
+plot(Kpos1,log10(Spos1),'b');
+hold on;
+title('demo whitenoise N64:图片radial功率谱');
 [Spos4,Vpos4,Kpos4] = mySpectre2D(pos4);
 %plot(Kpos4,Spos4);
-plot(Kpos4,log10(Spos4));
-title('demo whitenoise N64:生成图片radial功率谱');
+plot(Kpos4,log10(Spos4),'r');
+hold on;
+legend('原始','生成');
+%title('demo whitenoise N64:生成图片radial功率谱');
 %{
 subplot(2,2,1);
 mesh(fftshift(pos4));
@@ -208,7 +211,7 @@ title('demo whitenoise N64:生成图片功率谱(log10)');
 
 %%
 %clear all;close all;clc;
-des_imgs2=im2double(imread('demo256_des990.png'));
+des_imgs2=im2double(imread('des_1501.png'));
 %figure;
 %imshow(des_imgs);
 desg_imgs2=rgb2gray(des_imgs2);
@@ -217,16 +220,25 @@ desg_imgs2=rgb2gray(des_imgs2);
 for i=1:12
     for j=1:12
         imgs5(12*(i-1)+j,:,:)=desg_imgs2(66*(i-1)+1:66*(i-1)+64,66*(j-1)+1:66*(j-1)+64);
-        imgs5(12*(i-1)+j,:,:)=imgs5(12*(i-1)+j,:,:)-mean(mean(imgs5(12*(i-1)+j,:,:)));
+        %imgs5(12*(i-1)+j,:,:)=imgs5(12*(i-1)+j,:,:)-mean(mean(imgs5(12*(i-1)+j,:,:)));
+        imgs5(12*(i-1)+j,:,:)=imgs5(12*(i-1)+j,:,:)-0.5;
     end
 end
-wJ5 = 5; % window size is 2^wJ, should be smaller than image size
+wJ5 = 6; % window size is 2^wJ, should be smaller than image size
 pos5 = compute_power_spectrum_welch(imgs5,wJ5);
+%figure;
 figure;
+[Spos2,Vpos2,Kpos2] = mySpectre2D(pos2);
+%plot(Kpos2,Spos2);
+plot(Kpos2,log10(Spos2),'b');
+hold on;
+title('demo fbmB4 N256:图片radial功率谱');
 [Spos5,Vpos5,Kpos5] = mySpectre2D(pos5);
 %plot(Kpos5,Spos5);
-plot(Kpos5,log10(Spos5));
-title('demo fbmB4 N256:生成图片radial功率谱');
+plot(Kpos5,log10(Spos5),'r');
+hold on;
+legend('原始','生成');
+%title('demo fbmB4 N256:生成图片radial功率谱');
 %{
 subplot(2,2,1);
 mesh(fftshift(pos5));
@@ -246,6 +258,7 @@ colormap gray;
 title('demo fbmB4 N256:生成图片功率谱(log10)');
 %}
 
+%{
 figure;
 ii(:,:)=imgs(50,:,:);
 imshow(ii);
@@ -266,3 +279,4 @@ t=uitable(f,'Data',[norm(pos-pos3),norm(pos1-pos4),norm(pos2-pos5)],'ColumnName'
 norm(fftshift(pos)-fftshift(pos3))
 norm(fftshift(pos1)-fftshift(pos4))
 norm(fftshift(pos2)-fftshift(pos5))
+%}
