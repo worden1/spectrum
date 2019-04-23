@@ -280,3 +280,49 @@ norm(fftshift(pos)-fftshift(pos3))
 norm(fftshift(pos1)-fftshift(pos4))
 norm(fftshift(pos2)-fftshift(pos5))
 %}
+
+%%
+ns3=load('cosmodata0_c5_N256.mat');
+%ns1=ns1*(max(max(imgs))-min(min(imgs)))+min(min(imgs));
+[~,~,num3]=size(ns3.imgs);
+MA3=max(ns3.imgs(:));MI3=min(ns3.imgs(:));
+for i=1:num3
+    imgs6(i,:,:)=ns3.imgs(:,:,i);
+end
+%ns1=im2double(imread('noise_1.jpeg'));
+%ns1=rgb2gray(nss1);
+%imgs = randn(100,64,64); % 10 white noise images
+%imgs1(1,:,:)=ns1;
+wJ6 = 5; % window size is 2^wJ, should be smaller than image size
+pos6 = compute_power_spectrum_welch(imgs6,wJ6);
+
+
+des_imgs3=im2double(imread('cosmo_569.png'));
+%des_imgs1=imread('demo64_des290.png');
+%figure;
+%imshow(des_imgs);
+desg_imgs3=rgb2gray(des_imgs3);
+%figure;
+%imshow(desg_imgs);
+for i=1:12
+    for j=1:12
+        imgs7(12*(i-1)+j,:,:)=im2double(des_imgs3(66*(i-1)+1:66*(i-1)+64,66*(j-1)+1:66*(j-1)+64));
+        %imgs4(12*(i-1)+j,:,:)=imgs4(12*(i-1)+j,:,:)-mean(mean(imgs4(12*(i-1)+j,:,:)));
+        imgs7(12*(i-1)+j,:,:)=imgs7(12*(i-1)+j,:,:)*(MA3-MI3)+MI3;
+    end
+end
+wJ7 = 5; % window size is 2^wJ, should be smaller than image size
+pos7 = compute_power_spectrum_welch(imgs7,wJ7);
+%figure;
+figure;
+[Spos6,Vpos6,Kpos6] = mySpectre2D(pos6);
+%plot(Kpos1,Spos1);
+plot(Kpos6,log10(Spos6),'b');
+hold on;
+title('cosmodata_c5_N256:图片radial功率谱');
+[Spos7,Vpos7,Kpos7] = mySpectre2D(pos7);
+%plot(Kpos4,Spos4);
+plot(Kpos7,log10(Spos7),'r');
+hold on;
+legend('原始','生成');
+
