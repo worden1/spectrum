@@ -326,3 +326,17 @@ plot(Kpos7,log10(Spos7),'r');
 hold on;
 legend('原始','生成');
 
+%%
+%高斯生成对比
+figure;
+imagesc(squeeze(imgs1(1,:,:)));
+colormap gray;colorbar;
+title('原始高斯白噪声');
+figure;
+imagesc(squeeze(imgs4(1,:,:)));
+colormap gray;colorbar;
+title('生成高斯白噪声1号');
+figure;
+imagesc(squeeze(imgs4(10,:,:)));
+colormap gray;colorbar;
+title('生成高斯白噪声10号');
